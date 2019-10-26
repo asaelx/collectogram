@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 (async () => {
 
     let igUrl = 'https://www.instagram.com/';
-    let data = fs.readFileSync('src/usernames.json');
+    let data = fs.readFileSync('usernames.json');
     let usernamesObj = JSON.parse(data);
     let usernames = Object.keys(usernamesObj);
 
@@ -13,7 +13,7 @@ const puppeteer = require('puppeteer');
         if (usernamesObj[username].indexOf(mediaUrl) == -1) {
             usernamesObj[username].push(mediaUrl);
             let newData = JSON.stringify(usernamesObj, null, 4);
-            fs.writeFile('src/usernames.json', newData, function(err) {
+            fs.writeFile('usernames.json', newData, function(err) {
                 if (err) console.log('ERROR: '+err);
             });
             return false;
@@ -21,7 +21,7 @@ const puppeteer = require('puppeteer');
         console.log('=> No updates for ' + username);
         return true;
     };
-    
+
     const saveMedia = (username, mediaUrl) => {
         console.log('=> Downloading media for ' + username);
         wget(mediaUrl, function(err, response) {
