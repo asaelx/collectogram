@@ -1,6 +1,6 @@
 node_modules
 img/*
 .DS_Store
-src/usernames.json
+usernames.json
 *.jpg
 *.swp

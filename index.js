@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 (async () => {
 
     let igUrl = 'https://www.instagram.com/';
-    let data = fs.readFileSync('usernames.json');
+    let data = fs.readFileSync(__dirname+'/usernames.json');
     let usernamesObj = JSON.parse(data);
     let usernames = Object.keys(usernamesObj);
 
@@ -13,7 +13,7 @@ const puppeteer = require('puppeteer');
         if (usernamesObj[username].indexOf(mediaUrl) == -1) {
             usernamesObj[username].push(mediaUrl);
             let newData = JSON.stringify(usernamesObj, null, 4);
-            fs.writeFile('usernames.json', newData, function(err) {
+            fs.writeFile(__dirname+'/usernames.json', newData, function(err) {
                 if (err) console.log('ERROR: '+err);
             });
             return false;
@@ -27,7 +27,7 @@ const puppeteer = require('puppeteer');
         wget(mediaUrl, function(err, response) {
             if (err) console.log('ERROR: '+err);
             let filename = response.filepath.split(/[\\/]/).pop();
-            fs.rename(response.filepath, 'img/'+username+'_'+filename, function(err) {
+            fs.rename(response.filepath, __dirname+'/img/'+username+'_'+filename, function(err) {
                 if (err) console.log('ERROR: '+err);
             });
         });
@@ -102,6 +102,8 @@ const puppeteer = require('puppeteer');
     }
 
     await browser.close();
+
+    console.log('=> Done.');
 
 })();
 
